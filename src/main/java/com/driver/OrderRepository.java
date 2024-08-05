@@ -92,25 +92,16 @@ public class OrderRepository {
     public List<String> findAllOrders(){
         // your code here
         // return list of all orders
-        List<String> ol  = new ArrayList<>();
-
-        for(String oId : orderMap.keySet()){
-            ol.add(oId);
-        }
-
-        return ol;
+        return new ArrayList<>(orderMap.keySet());
     }
 
     public void deletePartner(String partnerId){
         // your code here
         // delete partner by ID
         if(partnerToOrderMap.containsKey(partnerId)){
-            partnerToOrderMap.remove(partnerId);
-        }
-
-        for(String order : orderToPartnerMap.keySet()){
-            if(orderToPartnerMap.get(order)==partnerId){
-                orderToPartnerMap.remove(order);
+            HashSet<String> orders = partnerToOrderMap.remove(partnerId);
+            for(String orderId : orders){
+                orderToPartnerMap.remove(orderId);
             }
         }
 
