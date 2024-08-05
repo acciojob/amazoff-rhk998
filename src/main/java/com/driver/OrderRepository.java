@@ -30,6 +30,7 @@ public class OrderRepository {
         // your code here
         // create a new partner with given partnerId and save it
         DeliveryPartner partner = new DeliveryPartner(partnerId);
+        partnerMap.put(partnerId, partner);
     }
 
     public void saveOrderPartnerMap(String orderId, String partnerId){
@@ -59,12 +60,14 @@ public class OrderRepository {
 
     public Order findOrderById(String orderId){
         // your code here
-        return orderMap.get(orderId);
+//        return orderMap.get(orderId);
+        return orderMap.getOrDefault(orderId, null);
     }
 
     public DeliveryPartner findPartnerById(String partnerId){
         // your code here
-        return partnerMap.get(partnerId);
+//        return partnerMap.get(partnerId);
+        return partnerMap.getOrDefault(partnerId, null);
     }
 
     public Integer findOrderCountByPartnerId(String partnerId){
@@ -117,11 +120,14 @@ public class OrderRepository {
     public void deleteOrder(String orderId){
         // your code here
         // delete order by ID
+
+        if(orderToPartnerMap.containsKey(orderId)) orderToPartnerMap.remove(orderId);
+
         for(String partner : partnerToOrderMap.keySet()){
             HashSet<String> ordrs = partnerToOrderMap.get(partner);
-            ordrs.remove(orderId);
+            if(ordrs.contains(orderId)) ordrs.remove(orderId);
+            break;
         }
-        if(orderToPartnerMap.containsKey(orderId)) orderToPartnerMap.remove(orderId);
 
         if(orderMap.containsKey(orderId)) orderMap.remove(orderId);
 
