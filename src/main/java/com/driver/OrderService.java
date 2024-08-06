@@ -8,8 +8,8 @@ import java.util.List;
 @Service
 public class OrderService {
 
-    @Autowired
-    private OrderRepository orderRepository;
+
+    private OrderRepository orderRepository = new OrderRepository();
 
     public void addOrder(Order order){
         orderRepository.saveOrder(order);
@@ -62,4 +62,5 @@ public class OrderService {
     public String getLastDeliveryTimeByPartnerId(String partnerId){
         return orderRepository.findLastDeliveryTimeByPartnerId(partnerId);
     }
+
 }
